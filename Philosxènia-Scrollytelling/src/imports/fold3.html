@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fold 3 — The World That Broke</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&display=swap" rel="stylesheet">
+
+<style>
+/* ── TOKENS ─────────────────────────────────────── */
+:root {
+  --bg:           #EDE9E0;   /* warm linen — fresh, not dark */
+  --bg-card:      #FAFAF7;   /* near-white card surface      */
+  --white:        #FFFFFF;
+  --charcoal:     #2C2825;
+  --coral:        #FF385C;
+  --text-body:    rgba(44,40,37,0.65);
+  --text-muted:   rgba(44,40,37,0.38);
+  --border:       rgba(44,40,37,0.08);
+  --border-med:   rgba(44,40,37,0.13);
+  --ease-expo:    cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #F4F3F1;
+  font-family: 'Figtree', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── SECTION ────────────────────────────────────── */
+.fold-3 {
+  background: var(--bg);
+  padding: 100px 0 100px;
+}
+
+.fold-3__inner {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 0 clamp(1.5rem, 6vw, 4rem);
+}
+
+/* ── ENTRANCE ANIMATIONS ────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s var(--ease-expo), transform 0.7s var(--ease-expo);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+.reveal-delay-5 { transition-delay: 0.5s; }
+
+/* ── EYEBROW ────────────────────────────────────── */
+.fold-3__eyebrow {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--coral);
+  margin-bottom: 20px;
+}
+
+/* ── HEADLINE ───────────────────────────────────── */
+.fold-3__headline {
+  font-size: clamp(1.9rem, 3.8vw, 2.9rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: var(--charcoal);
+  max-width: 24ch;
+  margin-bottom: 56px;
+}
+
+/* ── THREE COLUMNS ──────────────────────────────── */
+.fold-3__columns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.fold-3__col {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 32px 28px 28px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle top stripe per column */
+.fold-3__col::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--coral);
+  opacity: 0.18;
+  border-radius: 18px 18px 0 0;
+}
+
+.fold-3__col-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 18px;
+}
+
+.fold-3__col-headline {
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--charcoal);
+  margin-bottom: 14px;
+}
+
+/* ── STRIKETHROUGH TREATMENT ────────────────────── */
+/*
+  The struck word shows what was promised.
+  The real word shows what was delivered.
+  Coral strikethrough makes the betrayal visible.
+*/
+.struck {
+  position: relative;
+  color: rgba(44,40,37,0.30);
+  font-weight: 400;
+  text-decoration: line-through;
+  text-decoration-color: var(--coral);
+  text-decoration-thickness: 2px;
+  font-style: italic;
+}
+
+.real {
+  color: var(--charcoal);
+  font-weight: 800;
+}
+
+.fold-3__col-descriptor {
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--text-body);
+  font-weight: 400;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+/* ── CLOSING CALLOUT ────────────────────────────── */
+.fold-3__callout {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 24px 28px;
+  margin-bottom: 28px;
+  position: relative;
+  overflow: hidden;
+}
+
+.fold-3__callout::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--coral);
+  border-radius: 14px 0 0 14px;
+}
+
+.fold-3__callout p {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--charcoal);
+  font-weight: 500;
+  padding-left: 8px;
+}
+
+/* ── EXPAND TRIGGER ─────────────────────────────── */
+.fold-3__expand-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  border: 1px solid var(--border-med);
+  border-radius: 100px;
+  padding: 10px 22px 10px 16px;
+  font-family: 'Figtree', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--charcoal);
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.fold-3__expand-trigger:hover {
+  background: var(--bg-card);
+  border-color: rgba(44,40,37,0.22);
+}
+
+.trigger-icon-wrap {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--coral);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.4s var(--ease-expo);
+}
+
+.trigger-icon {
+  color: white;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1;
+  transition: transform 0.35s var(--ease-expo);
+  display: block;
+}
+
+.fold-3__expand-trigger.open .trigger-icon {
+  transform: rotate(45deg);
+}
+
+/* ── EXPANDABLE CONTAINER ───────────────────────── */
+.fold-3__expandable {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.75s var(--ease-expo);
+}
+
+.fold-3__expandable.open {
+  grid-template-rows: 1fr;
+}
+
+.fold-3__expandable-overflow {
+  overflow: hidden;
+}
+
+.fold-3__expandable-inner {
+  padding-top: 56px;
+  padding-bottom: 8px;
+}
+
+/* ── MAP SECTION ────────────────────────────────── */
+.fold-3__map-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+
+.fold-3__map-wrap {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 36px 40px 28px;
+  margin-bottom: 48px;
+  position: relative;
+}
+
+.fold-3__map-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* city tooltip */
+.city-tooltip {
+  position: absolute;
+  background: var(--charcoal);
+  color: white;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+  padding: 10px 14px;
+  border-radius: 10px;
+  max-width: 200px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  white-space: normal;
+  z-index: 20;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+}
+
+.city-tooltip.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.city-tooltip strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--coral);
+}
+
+.city-dot-group {
+  cursor: pointer;
+}
+
+.city-dot-ring {
+  fill: var(--coral);
+  opacity: 0.18;
+  transition: opacity 0.2s, r 0.2s;
+}
+
+.city-dot-core {
+  fill: var(--coral);
+  transition: r 0.2s;
+}
+
+.city-dot-group:hover .city-dot-ring {
+  opacity: 0.35;
+}
+
+/* ── PULL QUOTE ─────────────────────────────────── */
+.fold-3__pull-quote {
+  margin-bottom: 48px;
+  padding-left: 22px;
+  border-left: 3px solid var(--coral);
+}
+
+.fold-3__pull-quote blockquote {
+  font-size: 21px;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--charcoal);
+  margin-bottom: 12px;
+  max-width: 44ch;
+}
+
+.fold-3__pull-quote cite {
+  font-size: 13px;
+  font-style: normal;
+  color: var(--text-muted);
+}
+
+/* ── CITY GRID ──────────────────────────────────── */
+.fold-3__city-grid-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.fold-3__city-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 48px;
+}
+
+.fold-3__city-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fold-3__city-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--charcoal);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.fold-3__city-name::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--coral);
+  flex-shrink: 0;
+}
+
+.fold-3__city-stat {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-body);
+}
+
+/* ── RESEARCH QUOTES ────────────────────────────── */
+.fold-3__quotes-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.fold-3__quotes {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.fold-3__quote-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 26px 26px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.fold-3__quote-card-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+}
+
+.fold-3__quote-card-text {
+  font-size: 14px;
+  line-height: 1.75;
+  font-style: italic;
+  color: var(--charcoal);
+  margin-bottom: 16px;
+  flex: 1;
+}
+
+.fold-3__quote-card-attr {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-muted);
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+/* ── CLOSING LINE ───────────────────────────────── */
+.fold-3__closing-line {
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--text-body);
+  max-width: 58ch;
+  margin-bottom: 40px;
+}
+
+/* ── COLLAPSE TRIGGER ───────────────────────────── */
+.fold-3__collapse-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  font-family: 'Figtree', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s;
+}
+
+.fold-3__collapse-trigger:hover {
+  color: var(--charcoal);
+}
+
+.fold-3__collapse-trigger svg {
+  transition: transform 0.2s;
+}
+
+.fold-3__collapse-trigger:hover svg {
+  transform: translateY(-2px);
+}
+
+/* ── RESPONSIVE ─────────────────────────────────── */
+@media (max-width: 680px) {
+  .fold-3__columns,
+  .fold-3__city-grid,
+  .fold-3__quotes {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════
+     FOLD 3 — THE WORLD THAT BROKE
+═════════════════════════════════════════════════ -->
+<section class="fold-3" id="fold-3">
+  <div class="fold-3__inner">
+
+    <!-- EYEBROW -->
+    <p class="fold-3__eyebrow reveal">The problem</p>
+
+    <!-- HEADLINE -->
+    <h2 class="fold-3__headline reveal reveal-delay-1">
+      Across the system, every actor is optimising for the wrong thing.
+    </h2>
+
+    <!-- THREE COLUMNS -->
+    <div class="fold-3__columns">
+
+      <div class="fold-3__col reveal reveal-delay-2">
+        <p class="fold-3__col-label">Platforms</p>
+        <h3 class="fold-3__col-headline">
+          Profit from <span class="struck">quality</span>&nbsp;<span class="real">volume</span>
+        </h3>
+        <p class="fold-3__col-descriptor">More listings, more take-rate.</p>
+      </div>
+
+      <div class="fold-3__col reveal reveal-delay-3">
+        <p class="fold-3__col-label">Hosts</p>
+        <h3 class="fold-3__col-headline">
+          Optimised for <span class="struck">identity</span>&nbsp;<span class="real">occupancy</span>
+        </h3>
+        <p class="fold-3__col-descriptor">Calendars beat character.</p>
+      </div>
+
+      <div class="fold-3__col reveal reveal-delay-4">
+        <p class="fold-3__col-label">Guests</p>
+        <h3 class="fold-3__col-headline">
+          Filtered by <span class="struck">experience</span>&nbsp;<span class="real">price</span>
+        </h3>
+        <p class="fold-3__col-descriptor">Cheapest wins the search.</p>
+      </div>
+
+    </div>
+
+    <!-- CLOSING CALLOUT -->
+    <div class="fold-3__callout reveal reveal-delay-5">
+      <p>A solution owned by one platform will always serve that platform first. The intelligence needs to sit above them.</p>
+    </div>
+
+    <!-- EXPAND TRIGGER -->
+    <button class="fold-3__expand-trigger reveal" id="expandTrigger" aria-expanded="false" aria-controls="expandable">
+      <span class="trigger-icon-wrap">
+        <span class="trigger-icon">+</span>
+      </span>
+      See full research
+    </button>
+
+    <!-- EXPANDABLE SECTION -->
+    <div class="fold-3__expandable" id="expandable" aria-hidden="true">
+      <div class="fold-3__expandable-overflow">
+        <div class="fold-3__expandable-inner">
+
+          <!-- MAP -->
+          <p class="fold-3__map-label">European cities pushing back</p>
+          <div class="fold-3__map-wrap" id="mapWrap">
+
+            <!-- Tooltip (absolutely positioned via JS) -->
+            <div class="city-tooltip" id="cityTooltip"></div>
+
+            <svg class="fold-3__map-svg" viewBox="0 0 700 480" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <filter id="glow">
+                  <feGaussianBlur stdDeviation="2.5" result="blur"/>
+                  <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                </filter>
+              </defs>
+
+              <!-- Europe simplified outline -->
+              <path d="
+                M 118,430
+                C 105,400 98,370 108,335
+                C 118,300 112,275 136,270
+                C 152,266 158,246 162,225
+                C 166,205 152,198 172,188
+                C 188,180 184,172 210,165
+                C 234,158 238,144 265,138
+                C 285,133 292,112 322,92
+                C 346,74 378,80 398,118
+                C 412,145 450,124 478,114
+                C 494,108 500,126 502,148
+                C 506,172 514,195 500,228
+                C 486,261 470,272 459,296
+                C 448,320 454,340 440,363
+                C 432,378 440,395 424,404
+                C 413,411 400,392 388,369
+                C 370,338 364,318 350,303
+                C 338,290 344,348 352,380
+                C 359,406 352,428 336,433
+                C 320,438 313,415 296,393
+                C 276,366 263,334 252,312
+                C 241,292 226,300 216,326
+                C 206,350 200,373 178,394
+                C 156,415 132,432 118,430 Z
+              " fill="rgba(44,40,37,0.04)" stroke="rgba(44,40,37,0.14)" stroke-width="1.5" stroke-linejoin="round"/>
+
+              <!-- Scandinavia -->
+              <path d="M 322,92 C 332,72 354,48 380,40 C 404,32 422,48 426,68 C 430,86 414,98 398,118" fill="none" stroke="rgba(44,40,37,0.14)" stroke-width="1.5"/>
+
+              <!-- Italy boot hint -->
+              <path d="M 302,326 C 308,348 322,375 342,398 C 352,410 356,424 350,432 C 344,440 328,432 318,416 C 304,396 294,368 290,348 Z" fill="rgba(44,40,37,0.03)" stroke="rgba(44,40,37,0.12)" stroke-width="1.5"/>
+
+              <!-- UK hint -->
+              <path d="M 184,172 C 175,158 170,138 178,120 C 185,104 198,98 210,106 C 220,114 218,132 210,145 C 204,156 192,165 184,172 Z" fill="none" stroke="rgba(44,40,37,0.10)" stroke-width="1.2"/>
+
+              <!-- ── CITY DOTS ──────────────────── -->
+              <!-- Each group: ring + core dot, hover triggers tooltip -->
+
+              <!-- Barcelona -->
+              <g class="city-dot-group"
+                 data-city="Barcelona"
+                 data-info="All tourist apartment licences expire 2028. 10,000+ homes returned to residential market."
+                 data-cx="210" data-cy="342">
+                <circle cx="210" cy="342" r="16" class="city-dot-ring"/>
+                <circle cx="210" cy="342" r="6" class="city-dot-core"/>
+              </g>
+
+              <!-- Amsterdam -->
+              <g class="city-dot-group"
+                 data-city="Amsterdam"
+                 data-info="Airbnb listings fell 54% between 2019 and 2024."
+                 data-cx="246" data-cy="168">
+                <circle cx="246" cy="168" r="16" class="city-dot-ring"/>
+                <circle cx="246" cy="168" r="6" class="city-dot-core"/>
+              </g>
+
+              <!-- Berlin -->
+              <g class="city-dot-group"
+                 data-city="Berlin"
+                 data-info="8,105 apartments returned to residential housing."
+                 data-cx="330" data-cy="162">
+                <circle cx="330" cy="162" r="16" class="city-dot-ring"/>
+                <circle cx="330" cy="162" r="6" class="city-dot-core"/>
+              </g>
+
+              <!-- Paris -->
+              <g class="city-dot-group"
+                 data-city="Paris"
+                 data-info="90-day annual cap since January 2025. Two hosts fined €80,000 and €150,000 in February 2026."
+                 data-cx="228" data-cy="218">
+                <circle cx="228" cy="218" r="16" class="city-dot-ring"/>
+                <circle cx="228" cy="218" r="6" class="city-dot-core"/>
+              </g>
+
+              <!-- Spain national -->
+              <g class="city-dot-group"
+                 data-city="Spain"
+                 data-info="€64 million fine for Airbnb, December 2025. 65,122 unlicensed listings."
+                 data-cx="168" data-cy="305">
+                <circle cx="168" cy="305" r="16" class="city-dot-ring"/>
+                <circle cx="168" cy="305" r="6" class="city-dot-core"/>
+              </g>
+
+              <!-- Athens -->
+              <g class="city-dot-group"
+                 data-city="Athens"
+                 data-info="Ban on new short-term rental licences in central districts from January 2025."
+                 data-cx="432" data-cy="375">
+                <circle cx="432" cy="375" r="16" class="city-dot-ring"/>
+                <circle cx="432" cy="375" r="6" class="city-dot-core"/>
+              </g>
+
+              <!-- Florence -->
+              <g class="city-dot-group"
+                 data-city="Florence"
+                 data-info="Moratorium on new licences in historic centre. Protecting against touristification."
+                 data-cx="314" data-cy="302">
+                <circle cx="314" cy="302" r="16" class="city-dot-ring"/>
+                <circle cx="314" cy="302" r="6" class="city-dot-core"/>
+              </g>
+
+              <!-- Budapest -->
+              <g class="city-dot-group"
+                 data-city="Budapest"
+                 data-info="District referendum resulted in ban on short-term rentals from 2026."
+                 data-cx="405" data-cy="228">
+                <circle cx="405" cy="228" r="16" class="city-dot-ring"/>
+                <circle cx="405" cy="228" r="6" class="city-dot-core"/>
+              </g>
+
+            </svg>
+          </div><!-- /map-wrap -->
+
+          <!-- PULL QUOTE -->
+          <div class="fold-3__pull-quote">
+            <blockquote>"The problem is not just Paris. It is all of Europe."</blockquote>
+            <cite>— Anne Hidalgo, former Mayor of Paris</cite>
+          </div>
+
+          <!-- CITY CARDS -->
+          <p class="fold-3__city-grid-label">City by city</p>
+          <div class="fold-3__city-grid">
+            <div class="fold-3__city-card">
+              <p class="fold-3__city-name">Barcelona</p>
+              <p class="fold-3__city-stat">All tourist apartment licences expire 2028. 10,000+ homes returned to residential market.</p>
+            </div>
+            <div class="fold-3__city-card">
+              <p class="fold-3__city-name">Amsterdam</p>
+              <p class="fold-3__city-stat">Airbnb listings fell 54% between 2019 and 2024.</p>
+            </div>
+            <div class="fold-3__city-card">
+              <p class="fold-3__city-name">Berlin</p>
+              <p class="fold-3__city-stat">8,105 apartments returned to residential housing.</p>
+            </div>
+            <div class="fold-3__city-card">
+              <p class="fold-3__city-name">Paris</p>
+              <p class="fold-3__city-stat">90-day annual cap since January 2025. Two hosts fined €80,000 and €150,000 in February 2026.</p>
+            </div>
+            <div class="fold-3__city-card">
+              <p class="fold-3__city-name">Spain</p>
+              <p class="fold-3__city-stat">€64 million fine for Airbnb, December 2025. 65,122 unlicensed listings.</p>
+            </div>
+            <div class="fold-3__city-card">
+              <p class="fold-3__city-name">Athens</p>
+              <p class="fold-3__city-stat">Ban on new short-term rental licences in central districts from January 2025.</p>
+            </div>
+            <div class="fold-3__city-card">
+              <p class="fold-3__city-name">Florence</p>
+              <p class="fold-3__city-stat">Moratorium on new licences in historic centre. Protecting against "touristification."</p>
+            </div>
+            <div class="fold-3__city-card">
+              <p class="fold-3__city-name">Budapest</p>
+              <p class="fold-3__city-stat">District referendum resulted in ban on short-term rentals from 2026.</p>
+            </div>
+          </div>
+
+          <!-- RESEARCH QUOTES -->
+          <p class="fold-3__quotes-label">What the evidence says</p>
+          <div class="fold-3__quotes">
+            <div class="fold-3__quote-card">
+              <p class="fold-3__quote-card-label">Academic Research</p>
+              <p class="fold-3__quote-card-text">"Once people rate and review each other's social persona on the Airbnb platform, human beings adapt their behavior to the platform's reward-and-punish structure."</p>
+              <p class="fold-3__quote-card-attr">— Christiaens, T. (2025). Trust and power in Airbnb's digital rating and reputation system.</p>
+            </div>
+            <div class="fold-3__quote-card">
+              <p class="fold-3__quote-card-label">Host Community</p>
+              <p class="fold-3__quote-card-text">"This is the hospitality industry. It's run by real folks. You can't add AI for help. I don't want anything to do with a computer making decisions for anyone, especially in hospitality."</p>
+              <p class="fold-3__quote-card-attr">— Verified host, r/airbnb_hosts</p>
+            </div>
+          </div>
+
+          <!-- CLOSING LINE -->
+          <p class="fold-3__closing-line">
+            Hosts have become performers. Guests have become bookings. The communities that once made these places worth visiting are being hollowed out — one five-star review at a time.
+          </p>
+
+          <!-- COLLAPSE -->
+          <button class="fold-3__collapse-trigger" id="collapseTrigger">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M6 10V2M2 6l4-4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Collapse research
+          </button>
+
+        </div><!-- /expandable-inner -->
+      </div><!-- /expandable-overflow -->
+    </div><!-- /expandable -->
+
+  </div><!-- /inner -->
+</section>
+
+<script>
+/* ── EXPAND / COLLAPSE ───────────────────────── */
+const trigger      = document.getElementById('expandTrigger');
+const expandable   = document.getElementById('expandable');
+const collapseTrig = document.getElementById('collapseTrigger');
+
+trigger.addEventListener('click', () => {
+  const isOpen = expandable.classList.toggle('open');
+  trigger.classList.toggle('open', isOpen);
+  trigger.setAttribute('aria-expanded', isOpen);
+  expandable.setAttribute('aria-hidden', !isOpen);
+
+  // swap label text (preserve the icon span)
+  const label = trigger.childNodes[trigger.childNodes.length - 1];
+  label.textContent = isOpen ? ' Hide research' : ' See full research';
+});
+
+collapseTrig.addEventListener('click', () => {
+  expandable.classList.remove('open');
+  trigger.classList.remove('open');
+  trigger.setAttribute('aria-expanded', false);
+  expandable.setAttribute('aria-hidden', true);
+
+  const label = trigger.childNodes[trigger.childNodes.length - 1];
+  label.textContent = ' See full research';
+
+  // scroll back to trigger smoothly
+  trigger.scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+
+/* ── MAP TOOLTIPS ────────────────────────────── */
+const tooltip  = document.getElementById('cityTooltip');
+const mapWrap  = document.getElementById('mapWrap');
+const mapSVG   = mapWrap.querySelector('.fold-3__map-svg');
+const dotGroups = document.querySelectorAll('.city-dot-group');
+
+dotGroups.forEach(dot => {
+  dot.addEventListener('mouseenter', (e) => {
+    const city = dot.dataset.city;
+    const info = dot.dataset.info;
+
+    tooltip.innerHTML = `<strong>${city}</strong>${info}`;
+    tooltip.classList.add('visible');
+    positionTooltip(dot);
+  });
+
+  dot.addEventListener('mouseleave', () => {
+    tooltip.classList.remove('visible');
+  });
+});
+
+function positionTooltip(dot) {
+  const svgRect   = mapSVG.getBoundingClientRect();
+  const wrapRect  = mapWrap.getBoundingClientRect();
+  const vb        = mapSVG.viewBox.baseVal;
+
+  const cx = parseFloat(dot.dataset.cx);
+  const cy = parseFloat(dot.dataset.cy);
+
+  // scale SVG coords → screen px
+  const scaleX = svgRect.width  / vb.width;
+  const scaleY = svgRect.height / vb.height;
+
+  const screenX = (cx * scaleX) + (svgRect.left - wrapRect.left);
+  const screenY = (cy * scaleY) + (svgRect.top  - wrapRect.top);
+
+  tooltip.style.left = (screenX + 12) + 'px';
+  tooltip.style.top  = (screenY - 8)  + 'px';
+}
+
+/* ── SCROLL REVEAL ───────────────────────────── */
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

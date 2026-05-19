@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fold 8 — Xeny: Wander</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+
+<style>
+/* ── TOKENS ─────────────────────────────────────── */
+:root {
+  --bg-host:      #F7F6FB;   /* very light lavender tint */
+  --bg-guest:     #1E1A38;   /* deep indigo-purple, lighter */
+  --charcoal:     #2C2825;
+  --coral:        #FF385C;
+  --xeny:         #8B9ED4;   /* Xeny muted slate */
+  --xeny-light:   #B8B0E8;   /* Xeny lavender */
+  --surface:      #FFFFFF;
+  --body-dark:    rgba(44,40,37,0.65);
+  --muted-dark:   rgba(44,40,37,0.38);
+  --border-dark:  rgba(44,40,37,0.08);
+  --body-light:   rgba(255,255,255,0.65);
+  --muted-light:  rgba(255,255,255,0.38);
+  --border-light: rgba(255,255,255,0.10);
+  --phone-bezel:  #1A1917;
+  --callout-host: rgba(139,158,212,0.10);
+  --ease:         cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* phone sizes */
+  --phone-w:         242px;
+  --phone-h:         490px;
+  --phone-r:         38px;
+  --phone-inset:     9px;
+  --phone-inner-r:   30px;
+
+  --phone-sm-w:      185px;
+  --phone-sm-h:      375px;
+
+  --phone-hero-w:    290px;
+  --phone-hero-h:    580px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Figtree', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── SHARED INNER WIDTH ─────────────────────────── */
+.inner {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 clamp(1.5rem, 6vw, 4rem);
+}
+
+/* ── REVEAL ─────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.rd1 { transition-delay: 0.08s; }
+.rd2 { transition-delay: 0.18s; }
+.rd3 { transition-delay: 0.28s; }
+.rd4 { transition-delay: 0.38s; }
+.rd5 { transition-delay: 0.48s; }
+
+/* ══════════════════════════════════════════════════
+   HOST SECTION
+══════════════════════════════════════════════════ */
+.fold-8__host {
+  position: relative;
+  background: var(--bg-host);
+  padding: 100px 0 80px;
+  overflow: hidden;
+}
+
+/* Ambient lavender glow — top left */
+.fold-8__host-glow {
+  position: absolute;
+  top: -100px;
+  left: -100px;
+  width: 640px;
+  height: 640px;
+  background: radial-gradient(circle, rgba(184,176,232,0.32) 0%, transparent 65%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Secondary glow — bottom right, warmer */
+.fold-8__host-glow2 {
+  position: absolute;
+  bottom: -80px;
+  right: -60px;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(212,168,200,0.20) 0%, transparent 65%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.fold-8__host .inner { position: relative; z-index: 1; }
+
+/* ── EYEBROW ────────────────────────────────────── */
+.fold-8__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--xeny);
+  margin-bottom: 64px;
+}
+
+.fold-8__eyebrow::before {
+  content: '';
+  width: 20px;
+  height: 1px;
+  background: var(--xeny);
+  opacity: 0.5;
+}
+
+/* ── SUB-SECTION HEADER ─────────────────────────── */
+.sub-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.sub-tag {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  padding: 5px 14px;
+  border-radius: 100px;
+  flex-shrink: 0;
+  line-height: 1;
+  background: var(--xeny);
+}
+
+.sub-rule {
+  flex: 1;
+  height: 1px;
+  background: var(--border-dark);
+}
+
+/* On dark bg, rule is lighter */
+.sub-rule--light { background: var(--border-light); }
+
+.sub-meta {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+}
+
+.sub-meta--dark  { color: var(--muted-dark); }
+.sub-meta--light { color: var(--muted-light); }
+
+/* ── FRAMING LINE ───────────────────────────────── */
+.framing {
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.022em;
+  max-width: 36ch;
+  margin-bottom: 48px;
+}
+
+.framing--dark  { color: var(--charcoal); }
+.framing--light { color: rgba(255,255,255,0.92); }
+
+/* ── STEP LABEL / DESCRIPTOR ────────────────────── */
+.step-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.step-label--dark  { color: var(--xeny); }
+.step-label--light { color: rgba(255,255,255,0.55); }
+
+.step-desc {
+  font-size: 13px;
+  line-height: 1.65;
+  max-width: 42ch;
+  margin-bottom: 20px;
+}
+
+.step-desc--dark  { color: var(--body-dark); }
+.step-desc--light { color: var(--body-light); }
+
+/* ══════════════════════════════════════════════════
+   PHONE FRAME — shared
+══════════════════════════════════════════════════ */
+.phone {
+  position: relative;
+  width: var(--phone-w);
+  height: var(--phone-h);
+  background: var(--phone-bezel);
+  border-radius: var(--phone-r);
+  box-shadow: 0 24px 64px rgba(0,0,0,0.18),
+              inset 0 0 0 1px rgba(255,255,255,0.06);
+  flex-shrink: 0;
+}
+
+.phone--sm {
+  width: var(--phone-sm-w);
+  height: var(--phone-sm-h);
+}
+
+.phone--hero {
+  width: var(--phone-hero-w);
+  height: var(--phone-hero-h);
+  box-shadow: 0 32px 80px rgba(0,0,0,0.50),
+              0 0 60px rgba(139,158,212,0.25),
+              inset 0 0 0 1px rgba(255,255,255,0.08);
+}
+
+/* Notch */
+.phone::before {
+  content: '';
+  position: absolute;
+  top: 13px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 56px;
+  height: 7px;
+  background: var(--phone-bezel);
+  border-radius: 100px;
+  z-index: 10;
+}
+
+.phone--sm::before { width: 40px; height: 6px; top: 10px; }
+.phone--hero::before { width: 64px; height: 8px; top: 14px; }
+
+.phone__screen {
+  position: absolute;
+  inset: var(--phone-inset);
+  border-radius: var(--phone-inner-r);
+  overflow: hidden;
+  background: #F5F3EF;
+}
+
+/* Status bar */
+.phone__status {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--charcoal);
+  z-index: 5;
+}
+
+/* ── SCREEN PLACEHOLDERS ────────────────────────── */
+.screen-ph {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Host palette — warm lavender */
+.screen-ph--host {
+  background: linear-gradient(155deg, #EEECfA 0%, #E8E4F5 100%);
+}
+
+/* Guest palette — visible on lighter dark bg */
+.screen-ph--guest {
+  background: linear-gradient(155deg, #2E2854 0%, #261F4E 100%);
+}
+
+.screen-ph__icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.screen-ph__icon--host {
+  background: rgba(139,158,212,0.15);
+}
+
+.screen-ph__icon--host::after {
+  content: '';
+  width: 0; height: 0;
+  border-style: solid;
+  border-width: 6px 0 6px 10px;
+  border-color: transparent transparent transparent var(--xeny);
+  margin-left: 2px;
+}
+
+.screen-ph__icon--guest {
+  background: rgba(139,158,212,0.20);
+}
+
+.screen-ph__icon--guest::after {
+  content: '';
+  width: 0; height: 0;
+  border-style: solid;
+  border-width: 6px 0 6px 10px;
+  border-color: transparent transparent transparent var(--xeny-light);
+  margin-left: 2px;
+}
+
+.screen-ph__label {
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1.5;
+  max-width: 16ch;
+  letter-spacing: 0.02em;
+}
+
+.screen-ph__label--host { color: rgba(44,40,37,0.42); }
+.screen-ph__label--guest { color: rgba(255,255,255,0.50); }
+
+/* ── HOST CAROUSEL ──────────────────────────────── */
+.host-carousel-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 40px;
+}
+
+.carousel {
+  position: absolute;
+  inset: 0;
+  top: 28px;
+  display: flex;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.carousel::-webkit-scrollbar { display: none; }
+
+.carousel__slide {
+  min-width: 100%;
+  height: 100%;
+  scroll-snap-align: start;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px;
+  text-align: center;
+}
+
+.carousel__slide:nth-child(odd)  { background: linear-gradient(155deg,#EEECfA 0%,#E8E4F5 100%); }
+.carousel__slide:nth-child(even) { background: linear-gradient(155deg,#F0EDF8 0%,#EAE4F2 100%); }
+
+.carousel__slide-num {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--xeny);
+}
+
+.carousel__slide-label {
+  font-size: 11px;
+  color: rgba(44,40,37,0.42);
+  max-width: 18ch;
+  line-height: 1.5;
+}
+
+/* Dot indicators — outside the phone, below */
+.carousel-dots {
+  display: flex;
+  gap: 6px;
+  margin-top: 16px;
+}
+
+.dot {
+  height: 6px;
+  border-radius: 100px;
+  background: rgba(139,158,212,0.25);
+  transition: width 0.3s var(--ease), background 0.3s ease;
+  width: 6px;
+}
+
+.dot.active {
+  width: 18px;
+  background: var(--xeny);
+}
+
+/* ══════════════════════════════════════════════════
+   CALLOUT — HOST
+══════════════════════════════════════════════════ */
+.callout-host {
+  background: var(--callout-host);
+  border: 1px solid rgba(139,158,212,0.20);
+  border-radius: 16px;
+  padding: 24px 28px;
+  max-width: 640px;
+}
+
+.callout__main {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.callout__support {
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.callout-host .callout__main    { color: var(--charcoal); }
+.callout-host .callout__support { color: var(--body-dark); }
+
+/* ══════════════════════════════════════════════════
+   GUEST SECTION — purple aurora
+══════════════════════════════════════════════════ */
+.fold-8__guest {
+  position: relative;
+  background: var(--bg-guest);
+  padding: 80px 0 100px;
+  overflow: hidden;
+}
+
+/* Aurora overlay descending from top */
+.fold-8__aurora {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 72%;
+  background: linear-gradient(
+    to bottom,
+    rgba(184,176,232,0.72) 0%,
+    rgba(212,168,200,0.50) 25%,
+    rgba(240,184,160,0.28) 52%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Subtle grain on guest section */
+.fold-8__grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.12;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.fold-8__guest .inner { position: relative; z-index: 1; }
+
+/* ── MOMENT ROWS ────────────────────────────────── */
+.moment {
+  margin-bottom: 64px;
+}
+
+.moment__phones {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* Moment 2 hero — centred, extra breathing room */
+.moment--hero {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 72px;
+}
+
+.moment--hero .phone--hero {
+  /* Glow halo around the hero phone */
+  filter: drop-shadow(0 0 40px rgba(155,143,216,0.25));
+  margin-top: 8px;
+}
+
+/* ── VIDEO PLACEHOLDER (guest) ──────────────────── */
+.video-ph {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px;
+  text-align: center;
+  background: linear-gradient(175deg, #2C2650 0%, #211C44 100%);
+}
+
+/* Aurora shimmer inside hero phone */
+.video-ph::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 50%;
+  background: linear-gradient(
+    to bottom,
+    rgba(184,176,232,0.55) 0%,
+    rgba(212,168,200,0.30) 50%,
+    transparent 100%
+  );
+}
+
+.video-ph__icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(139,158,212,0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+.video-ph__icon::after {
+  content: '';
+  width: 0; height: 0;
+  border-style: solid;
+  border-width: 8px 0 8px 14px;
+  border-color: transparent transparent transparent var(--xeny-light);
+  margin-left: 3px;
+}
+
+.video-ph__label {
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.38);
+  max-width: 20ch;
+  line-height: 1.55;
+  position: relative;
+  z-index: 1;
+  letter-spacing: 0.02em;
+}
+
+/* ── CALLOUT — GUEST ─────────────────────────────── */
+.callout-guest {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 16px;
+  padding: 24px 28px;
+  max-width: 640px;
+  margin-bottom: 28px;
+}
+
+.callout-guest .callout__main    { color: rgba(255,255,255,0.90); }
+.callout-guest .callout__support { color: rgba(255,255,255,0.55); }
+
+/* ── DATA CALLOUT ───────────────────────────────── */
+.data-callout {
+  padding-left: 22px;
+  border-left: 3px solid rgba(255,255,255,0.30);
+  max-width: 560px;
+}
+
+.data-callout__num {
+  font-size: 40px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: rgba(255,255,255,0.92);
+  line-height: 1;
+  margin-bottom: 10px;
+}
+
+.data-callout__text {
+  font-size: 15px;
+  line-height: 1.72;
+  color: rgba(255,255,255,0.62);
+  margin-bottom: 8px;
+}
+
+.data-callout__source {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.28);
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════
+     FOLD 8 — XENY: WANDER
+════════════════════════════════════════════════ -->
+
+<!-- ── HOST SECTION ─────────────────────────────── -->
+<div class="fold-8__host">
+  <div class="fold-8__host-glow" aria-hidden="true"></div>
+  <div class="fold-8__host-glow2" aria-hidden="true"></div>
+
+  <div class="inner">
+
+    <!-- Eyebrow -->
+    <p class="fold-8__eyebrow reveal">Xeny · Wander</p>
+
+    <!-- Host sub-header -->
+    <div class="sub-header reveal rd1">
+      <span class="sub-tag">Host</span>
+      <span class="sub-rule"></span>
+      <span class="sub-meta sub-meta--dark">Guidebook creation</span>
+    </div>
+
+    <!-- Framing line -->
+    <h3 class="framing framing--dark reveal rd2">
+      Your knowledge of this place, made shareable.
+    </h3>
+
+    <!-- Carousel phone -->
+    <div class="host-carousel-wrap reveal rd3">
+      <p class="step-label step-label--dark">01–05 — Build the guidebook</p>
+      <p class="step-desc step-desc--dark">A five-step conversation that pulls from your listing, your territory and your own stories — and turns them into something every guest actually wants to follow.</p>
+
+      <div class="phone" id="hostPhone">
+        <div class="phone__screen">
+          <div class="phone__status">
+            <span>9:41</span>
+            <span style="font-size:9px;opacity:0.6;">●●●</span>
+          </div>
+          <!--
+            SWAP: Replace each .carousel__slide with
+            <img src="step-N.png" style="min-width:100%;height:100%;object-fit:cover;scroll-snap-align:start;">
+          -->
+          <div class="carousel" id="hostCarousel">
+            <div class="carousel__slide"><span class="carousel__slide-num">01 / 05</span><p class="carousel__slide-label">[SCREEN: Lens selection chat]</p></div>
+            <div class="carousel__slide"><span class="carousel__slide-num">02 / 05</span><p class="carousel__slide-label">[SCREEN: Memory-based conversation]</p></div>
+            <div class="carousel__slide"><span class="carousel__slide-num">03 / 05</span><p class="carousel__slide-label">[SCREEN: Dynamic personalisation]</p></div>
+            <div class="carousel__slide"><span class="carousel__slide-num">04 / 05</span><p class="carousel__slide-label">[SCREEN: Draft generation]</p></div>
+            <div class="carousel__slide"><span class="carousel__slide-num">05 / 05</span><p class="carousel__slide-label">[SCREEN: Publish]</p></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step dots -->
+      <div class="carousel-dots" id="hostDots" role="tablist" aria-label="Carousel steps">
+        <div class="dot active" role="tab"></div>
+        <div class="dot" role="tab"></div>
+        <div class="dot" role="tab"></div>
+        <div class="dot" role="tab"></div>
+        <div class="dot" role="tab"></div>
+      </div>
+    </div>
+
+    <!-- Host callout -->
+    <div class="callout-host reveal rd4">
+      <p class="callout__main">The result sounds like you. Not like TripAdvisor.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── GUEST SECTION ─────────────────────────────── -->
+<div class="fold-8__guest">
+  <div class="fold-8__aurora" aria-hidden="true"></div>
+  <div class="fold-8__grain"  aria-hidden="true"></div>
+
+  <div class="inner">
+
+    <!-- Guest sub-header -->
+    <div class="sub-header reveal">
+      <span class="sub-tag">Guest</span>
+      <span class="sub-rule sub-rule--light"></span>
+      <span class="sub-meta sub-meta--light">Live guidebook experience</span>
+    </div>
+
+    <!-- Framing line -->
+    <h3 class="framing framing--light reveal rd1">
+      The host isn't there.<br>But it feels like they are.
+    </h3>
+
+    <!-- ── MOMENT 1: Getting started ──────────────── -->
+    <div class="moment reveal rd2">
+      <p class="step-label step-label--light">Getting started</p>
+      <p class="step-desc step-desc--light">Accessed from the booking confirmation or a notification. The guest sets their preferences — what the host suggests, what they actually want to see, and what Xeny recommends based on their profile.</p>
+      <div class="moment__phones">
+
+        <div class="phone phone--sm">
+          <div class="phone__screen">
+            <div class="phone__status" style="color:rgba(255,255,255,0.7);font-size:9px;"><span>9:41</span></div>
+            <!--
+              SWAP: <img src="entry.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;">
+            -->
+            <div class="screen-ph screen-ph--guest">
+              <div class="screen-ph__icon screen-ph__icon--guest"></div>
+              <p class="screen-ph__label screen-ph__label--guest">[SCREEN: Entry]</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="phone phone--sm">
+          <div class="phone__screen">
+            <div class="phone__status" style="color:rgba(255,255,255,0.7);font-size:9px;"><span>9:41</span></div>
+            <div class="screen-ph screen-ph--guest">
+              <div class="screen-ph__icon screen-ph__icon--guest"></div>
+              <p class="screen-ph__label screen-ph__label--guest">[SCREEN: Customisation]</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="phone phone--sm">
+          <div class="phone__screen">
+            <div class="phone__status" style="color:rgba(255,255,255,0.7);font-size:9px;"><span>9:41</span></div>
+            <div class="screen-ph screen-ph--guest">
+              <div class="screen-ph__icon screen-ph__icon--guest"></div>
+              <p class="screen-ph__label screen-ph__label--guest">[SCREEN: Preference setting]</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── MOMENT 2: On the ground — HERO ─────────── -->
+    <div class="moment moment--hero reveal rd2" id="heroPhone">
+      <p class="step-label step-label--light">On the ground</p>
+      <p class="step-desc step-desc--light">A live map that knows where you are. As you approach a stop, the host's tip surfaces — read it or listen to it in the host's own voice.</p>
+
+      <div class="phone phone--hero">
+        <div class="phone__screen" style="background:#0D0C14;">
+          <div class="phone__status" style="color:rgba(255,255,255,0.65);font-size:10px;">
+            <span>9:41</span>
+            <span style="opacity:0.5;">●●●</span>
+          </div>
+          <!--
+            SWAP: Replace .video-ph with:
+            <video autoplay loop muted playsinline
+                   style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+              <source src="live-wander-experience.mp4" type="video/mp4">
+            </video>
+          -->
+          <div class="video-ph">
+            <div class="video-ph__icon"></div>
+            <p class="video-ph__label">[VIDEO: Live wander experience — map, location trigger, host tip activating]</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── MOMENT 3: Your turn ──────────────────── -->
+    <div class="moment reveal rd3">
+      <p class="step-label step-label--light">Your turn</p>
+      <p class="step-desc step-desc--light">Rate the itinerary and add your own notes for next time.</p>
+      <div class="moment__phones">
+
+        <div class="phone phone--sm">
+          <div class="phone__screen">
+            <div class="phone__status" style="color:rgba(255,255,255,0.7);font-size:9px;"><span>9:41</span></div>
+            <div class="screen-ph screen-ph--guest">
+              <div class="screen-ph__icon screen-ph__icon--guest"></div>
+              <p class="screen-ph__label screen-ph__label--guest">[SCREEN: Rating]</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="phone phone--sm">
+          <div class="phone__screen">
+            <div class="phone__status" style="color:rgba(255,255,255,0.7);font-size:9px;"><span>9:41</span></div>
+            <div class="screen-ph screen-ph--guest">
+              <div class="screen-ph__icon screen-ph__icon--guest"></div>
+              <p class="screen-ph__label screen-ph__label--guest">[SCREEN: Notes]</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Guest callout -->
+    <div class="callout-guest reveal rd4">
+      <p class="callout__main">Every guest leaves the place a little better known than before.</p>
+    </div>
+
+    <!-- Data callout -->
+    <div class="data-callout reveal rd5">
+      <p class="data-callout__num">48%</p>
+      <p class="data-callout__text">of guests visited places they would never have found without a host recommendation. Xeny makes that happen for every guest, every stay — and lets them pass it on.</p>
+      <p class="data-callout__source">Airbnb UK, 2024</p>
+    </div>
+
+  </div>
+</div>
+
+<script>
+/* ── SCROLL REVEAL ──────────────────────────────── */
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+/* ── HOST CAROUSEL DOTS ─────────────────────────── */
+const carousel = document.getElementById('hostCarousel');
+const dots     = document.querySelectorAll('#hostDots .dot');
+const SLIDES   = 5;
+
+if (carousel && dots.length) {
+  const updateDots = () => {
+    const w   = carousel.clientWidth;
+    const idx = Math.round(carousel.scrollLeft / w);
+    dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+  };
+  carousel.addEventListener('scroll', updateDots, { passive: true });
+
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => {
+      carousel.scrollTo({ left: i * carousel.clientWidth, behavior: 'smooth' });
+    });
+  });
+}
+
+/* ── HERO VIDEO AUTOPLAY ON SCROLL ──────────────── */
+/*
+  When the real <video> is swapped in, this plays it
+  automatically when the phone enters the viewport.
+*/
+const heroObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    const vid = e.target.querySelector('video');
+    if (!vid) return;
+    e.isIntersecting ? vid.play() : vid.pause();
+  });
+}, { threshold: 0.35 });
+
+const hero = document.getElementById('heroPhone');
+if (hero) heroObs.observe(hero);
+</script>
+
+</body>
+</html>
