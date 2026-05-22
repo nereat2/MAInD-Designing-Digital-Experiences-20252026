@@ -265,7 +265,14 @@ export default function FoldSeven() {
               desc="Philo interviews you about your space, your neighbourhood, your hosting style. Voice or text — no forms."
             />
             <PhoneFrame width={242} height={490}>
-              <VideoPlaceholder label="[VIDEO: Tell me about your place]" />
+              <video
+                src="https://res.cloudinary.com/dl5b9lrlk/video/upload/q_auto/f_auto/v1779443519/listing-creation-tellmeaboutyourlisting_hh0gwh.mp4"
+                autoPlay
+                muted
+                loop
+                playsInline
+                style={{ flex: 1, width: '100%', objectFit: 'cover', display: 'block', minHeight: 0 }}
+              />
             </PhoneFrame>
           </div>
 
@@ -308,7 +315,16 @@ export default function FoldSeven() {
             desc="Philo learns your travel style, past trips, preferences and needs. It remembers what you've booked, what you loved, and what matters to you."
             maxW="44ch"
           />
-          <CarouselPhone width={265} height={530} />
+          <PhoneFrame width={265} height={530}>
+            <video
+              src="https://res.cloudinary.com/dl5b9lrlk/video/upload/q_auto/f_auto/v1779444359/listing_suggestion_rtptrl.mp4"
+              autoPlay
+              muted
+              loop
+              playsInline
+              style={{ flex: 1, width: '100%', objectFit: 'cover', display: 'block', minHeight: 0 }}
+            />
+          </PhoneFrame>
         </div>
 
         {/* Step 02 — three suggestion phones */}
@@ -327,7 +343,16 @@ export default function FoldSeven() {
               <SuggestionPhone width={280} height={568} label="[SCREEN: Suggestion 1]" />
             </div>
             <div style={{ alignSelf: 'flex-end', marginTop: '-100px' }}>
-              <SuggestionPhone width={280} height={568} label="[SCREEN: Suggestion 2]" />
+              <PhoneFrame width={280} height={568}>
+                <video
+                  src="https://res.cloudinary.com/dl5b9lrlk/video/upload/q_auto/f_auto/v1779444401/listing_basicdata_imutfp.mp4"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  style={{ flex: 1, width: '100%', objectFit: 'cover', display: 'block', minHeight: 0 }}
+                />
+              </PhoneFrame>
             </div>
             <div style={{ alignSelf: 'flex-start', marginTop: '-100px' }}>
               <SuggestionPhone width={280} height={568} label="[SCREEN: Suggestion 3]" />

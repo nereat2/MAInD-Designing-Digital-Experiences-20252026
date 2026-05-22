@@ -164,7 +164,14 @@ function HostCarousel() {
 
       <Phone width={242} height={490} radius={38}>
         <StatusBar />
-        <ScreenPh variant="host" label="Video walkthrough — guidebook creation process" />
+        <video
+          src="https://res.cloudinary.com/dl5b9lrlk/video/upload/q_auto/f_auto/v1779444369/guidebook_memory_bzrxzs.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          style={{ flex: 1, width: '100%', objectFit: 'cover', display: 'block', minHeight: 0 }}
+        />
       </Phone>
     </div>
   );
@@ -395,22 +402,17 @@ export default function FoldEight() {
             desc="Accessed from the booking confirmation or a notification. The guest sets their preferences — what the host suggests, what they actually want to see, and what Xeny recommends based on their profile."
             delay={180}
           >
-            <div style={{ 
-              display: 'flex', 
-              flexDirection: 'column',
-              gap: '0px',
-              width: '100%'
-            }}>
-              <div style={{ alignSelf: 'flex-start' }}>
-                <SmallPhone label="Entry" width={280} height={568} />
-              </div>
-              <div style={{ alignSelf: 'flex-end', marginTop: '-100px' }}>
-                <SmallPhone label="Customisation" width={280} height={568} />
-              </div>
-              <div style={{ alignSelf: 'flex-start', marginTop: '-100px' }}>
-                <SmallPhone label="Preference setting" width={280} height={568} />
-              </div>
-            </div>
+            <Phone width={280} height={568} radius={38} notchW={56} notchH={7} notchTop={9}>
+              <StatusBar />
+              <video
+                src="https://res.cloudinary.com/dl5b9lrlk/video/upload/q_auto/f_auto/v1779444456/guidebook_lens_fscjmk.mp4"
+                autoPlay
+                muted
+                loop
+                playsInline
+                style={{ flex: 1, width: '100%', objectFit: 'cover', display: 'block', minHeight: 0 }}
+              />
+            </Phone>
           </Moment>
 
           {/* Moment 2: On the ground — Hero */}
