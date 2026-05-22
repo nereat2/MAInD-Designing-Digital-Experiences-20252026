@@ -1,8 +1,8 @@
 /* Fold 6 — The Solution Reveal
-   Centered layout. Philo & Xeny flank the φιλοξενία wordmark,
+   Centered layout. Philo & Xeni flank the φιλοξενία wordmark,
    eyes turned inward, floating at different vertical heights.
 */
-import { PhiloBlob, XenyBlob } from './Blobs';
+import { PhiloBlob, XeniBlob } from './Blobs';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import { useState, useEffect, useRef } from 'react';
 import philoXeniLogo from '../../imports/philo-xeni-logo.png';
@@ -156,7 +156,7 @@ export default function FoldSix() {
             />
           </div>
 
-          {/* Xeny — right, slides in from right */}
+          {/* Xeni — right, slides in from right */}
           <div style={{
             marginLeft: 20, zIndex: 2,
             transform: showBlobs ? 'translateX(0) translateY(12px)' : 'translateX(200px) translateY(12px)',
@@ -164,7 +164,7 @@ export default function FoldSix() {
             filter: 'drop-shadow(0 8px 20px rgba(166,188,255,0.35)) drop-shadow(0 2px 6px rgba(166,188,255,0.20))',
             transition: 'transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s, opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s',
           }}>
-            <XenyBlob size={72} eyeDir="left" anim="xeni-hover 7.2s ease-in-out 1.1s infinite" />
+            <XeniBlob size={72} eyeDir="left" anim="xeni-hover 7.2s ease-in-out 1.1s infinite" />
           </div>
         </div>
 
@@ -191,7 +191,7 @@ export default function FoldSix() {
           transform: showContent ? 'translateY(0)' : 'translateY(20px)',
           transition: 'opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.45s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.45s',
         }}>
-          Philo and Xeny are two AI agents named after the two halves of φιλοξενία — the ancient Greek word for the love of strangers. Together they do what no platform feature has managed: connect the right person to the right place, in the right way.
+          Philo and Xeni are two AI agents named after the two halves of φιλοξενία — the ancient Greek word for the love of strangers. Together they do what no platform feature has managed: connect the right person to the right place, in the right way.
         </p>
 
       </div>

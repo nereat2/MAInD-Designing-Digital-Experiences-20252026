@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronUp } from 'lucide-react';
 import philoXeniLogo from '../../imports/philo-xeni-logo-1.png';
-import { PhiloBlob, XenyBlob } from './Blobs';
+import { PhiloBlob, XeniBlob } from './Blobs';
 
 const PILLS = ['P2P Accommodation', 'Mobility', 'Restaurants & Dining', 'Local Experiences', 'Travel'];
 
@@ -256,7 +256,7 @@ export default function FoldNine() {
             />
           </div>
 
-          {/* Xeny — right, slides in from right */}
+          {/* Xeni — right, slides in from right */}
           <div style={{
             position: 'absolute',
             right: 'calc(50% - clamp(220px, 26vw, 280px))',
@@ -267,7 +267,7 @@ export default function FoldNine() {
             transition: 'transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s, opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s',
             zIndex: 2,
           }}>
-            <XenyBlob size={62} eyeDir="left" anim="xeni-hover-nine 7.2s ease-in-out 1.1s infinite" />
+            <XeniBlob size={62} eyeDir="left" anim="xeni-hover-nine 7.2s ease-in-out 1.1s infinite" />
           </div>
         </div>
 

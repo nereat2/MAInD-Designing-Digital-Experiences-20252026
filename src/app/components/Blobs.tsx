@@ -1,4 +1,4 @@
-/* Shared blob components — Philo (coral) and Xeny (lavender)
+/* Shared blob components — Philo (coral) and Xeni (lavender)
    Built from the Figma avatar structure: blurred gradient ellipse
    + glass face container + paired white-bar eyes.
 */
@@ -99,7 +99,7 @@ export function PhiloBlob({
   );
 }
 
-export function XenyBlob({
+export function XeniBlob({
   size,
   eyeDir = 'right',
   anim,
@@ -111,7 +111,7 @@ export function XenyBlob({
   style?: React.CSSProperties;
 }) {
   return (
-    <BlobSphere size={size} filterId={`xeny-${size}`} eyeDir={eyeDir} anim={anim} style={style}
+    <BlobSphere size={size} filterId={`xeni-${size}`} eyeDir={eyeDir} anim={anim} style={style}
       gradStops={<>
         <stop stopColor="#A6BCFF" />
         <stop offset="0.80" stopColor="#FF8A8E" stopOpacity="0.80" />

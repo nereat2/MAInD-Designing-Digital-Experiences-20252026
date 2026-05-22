@@ -220,7 +220,7 @@ export default function App() {
       {/* Fold 7: Philo · Optimise */}
       <FoldSeven />
 
-      {/* Fold 8: Xeny · Wander */}
+      {/* Fold 8: Xeni · Wander */}
       <FoldEight />
 
       {/* Fold 8C: What Makes It Different */}

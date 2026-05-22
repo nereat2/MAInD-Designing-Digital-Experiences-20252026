@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 
 /* ── TOKENS ─────────────────────────────────── */
-const XENY        = '#8B9ED4';
-const XENY_LIGHT  = '#B8B0E8';
+const XENI        = '#8B9ED4';
+const XENI_LIGHT  = '#B8B0E8';
 const CHARCOAL    = '#2C2825';
 const BG_HOST     = '#F7F6FB';
 const BG_GUEST    = '#F7F6FB';
@@ -100,7 +100,7 @@ function ScreenPh({ variant, label }: { variant: 'host' | 'guest'; label: string
         <div style={{
           width: 0, height: 0, borderStyle: 'solid',
           borderWidth: '6px 0 6px 10px',
-          borderColor: `transparent transparent transparent ${isGuest ? XENY_LIGHT : XENY}`,
+          borderColor: `transparent transparent transparent ${isGuest ? XENI_LIGHT : XENI}`,
           marginLeft: 2
         }} />
       </div>
@@ -121,7 +121,7 @@ function SubHeader({ tag, meta, light = false }: { tag: string; meta: string; li
         fontSize: 11, fontWeight: 700, letterSpacing: '0.14em',
         textTransform: 'uppercase', color: '#FFFFFF',
         padding: '5px 14px', borderRadius: 100, flexShrink: 0,
-        lineHeight: 1, background: XENY
+        lineHeight: 1, background: XENI
       }}>{tag}</span>
       <span style={{
         flex: 1, height: 1,
@@ -153,7 +153,7 @@ function HostCarousel() {
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', marginBottom: 40 }}>
       <p style={{
         fontSize: 11, fontWeight: 600, letterSpacing: '0.14em',
-        textTransform: 'uppercase', marginBottom: 8, color: XENY
+        textTransform: 'uppercase', marginBottom: 8, color: XENI
       }}>01–05 — Build the guidebook</p>
       <p style={{
         fontSize: 13, lineHeight: 1.65, maxWidth: '42ch', marginBottom: 20,
@@ -163,14 +163,13 @@ function HostCarousel() {
       </p>
 
       <Phone width={242} height={490} radius={38}>
-        <StatusBar />
         <video
           src="https://res.cloudinary.com/dl5b9lrlk/video/upload/q_auto/f_auto/v1779444369/guidebook_memory_bzrxzs.mp4"
           autoPlay
           muted
           loop
           playsInline
-          style={{ flex: 1, width: '100%', objectFit: 'cover', display: 'block', minHeight: 0 }}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
         />
       </Phone>
     </div>
@@ -256,7 +255,7 @@ function Moment({
     >
       <p style={{
         fontSize: 11, fontWeight: 600, letterSpacing: '0.14em',
-        textTransform: 'uppercase', marginBottom: 8, color: XENY
+        textTransform: 'uppercase', marginBottom: 8, color: XENI
       }}>{stepLabel}</p>
       <p style={{
         fontSize: 13, lineHeight: 1.65, maxWidth: '42ch', marginBottom: 20,
@@ -315,10 +314,10 @@ export default function FoldEight() {
             <p style={{
               display: 'inline-flex', alignItems: 'center', gap: 8,
               fontSize: 11, fontWeight: 500, letterSpacing: '0.16em',
-              textTransform: 'uppercase', color: XENY
+              textTransform: 'uppercase', color: XENI
             }}>
-              <span style={{ width: 20, height: 1, background: XENY, opacity: 0.5, display: 'inline-block' }} />
-              Xeny · Wander
+              <span style={{ width: 20, height: 1, background: XENI, opacity: 0.5, display: 'inline-block' }} />
+              Xeni · Wander
             </p>
           </div>
 
@@ -372,18 +371,17 @@ export default function FoldEight() {
           {/* Moment 1: Getting started */}
           <Moment
             stepLabel="Getting started"
-            desc="Accessed from the booking confirmation or a notification. The guest sets their preferences — what the host suggests, what they actually want to see, and what Xeny recommends based on their profile."
+            desc="Accessed from the booking confirmation or a notification. The guest sets their preferences — what the host suggests, what they actually want to see, and what Xeni recommends based on their profile."
             delay={180}
           >
             <Phone width={280} height={568} radius={38} notchW={56} notchH={7} notchTop={9}>
-              <StatusBar />
               <video
                 src="https://res.cloudinary.com/dl5b9lrlk/video/upload/q_auto/f_auto/v1779444456/guidebook_lens_fscjmk.mp4"
                 autoPlay
                 muted
                 loop
                 playsInline
-                style={{ flex: 1, width: '100%', objectFit: 'cover', display: 'block', minHeight: 0 }}
+                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
               />
             </Phone>
           </Moment>
@@ -403,10 +401,10 @@ export default function FoldEight() {
           </div>
 
           {/* Data callout */}
-          <div ref={gData.ref} style={{ ...reveal(gData, 480), paddingLeft: 22, borderLeft: `3px solid ${XENY}`, maxWidth: 560 }}>
+          <div ref={gData.ref} style={{ ...reveal(gData, 480), paddingLeft: 22, borderLeft: `3px solid ${XENI}`, maxWidth: 560 }}>
             <p style={{ fontSize: 40, fontWeight: 800, letterSpacing: '-0.03em', color: CHARCOAL, lineHeight: 1, marginBottom: 10 }}>48%</p>
             <p style={{ fontSize: 15, lineHeight: 1.72, color: 'rgba(44,40,37,0.65)', marginBottom: 8 }}>
-              of guests visited places they would never have found without a host recommendation. Xeny makes that happen for every guest, every stay — and lets them pass it on.
+              of guests visited places they would never have found without a host recommendation. Xeni makes that happen for every guest, every stay — and lets them pass it on.
             </p>
             <p style={{ fontSize: 11, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'rgba(44,40,37,0.38)' }}>
               Airbnb UK, 2024

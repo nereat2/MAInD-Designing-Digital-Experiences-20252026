@@ -1,4 +1,4 @@
-import { PhiloBlob, XenyBlob } from './Blobs';
+import { PhiloBlob, XeniBlob } from './Blobs';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import { useState, useEffect, useRef } from 'react';
 import airbnbLogo from '../../imports/Airbnb_App_Logo_Sept_29_2020.png';
@@ -11,12 +11,12 @@ export default function FoldTwo() {
   const banner = useScrollReveal(0.15, 320);
 
   const [showPhiloText, setShowPhiloText] = useState(false);
-  const [showXenyText, setShowXenyText] = useState(false);
+  const [showXeniText, setShowXeniText] = useState(false);
 
   useEffect(() => {
     if (cards.isVisible) {
       setTimeout(() => setShowPhiloText(true), 2200);
-      setTimeout(() => setShowXenyText(true), 2400);
+      setTimeout(() => setShowXeniText(true), 2400);
     }
   }, [cards.isVisible]);
 
@@ -76,7 +76,7 @@ export default function FoldTwo() {
               marginBottom: '16px'
             }}
           >
-            Philo & Xeny are two AI agents that live inside the P2P accommodation ecosystem. Philo helps hosts express who they are — and helps guests find what they're actually looking for. Xeny turns a host's knowledge of a place into a living guide that travels with the guest.
+            Philo & Xeni are two AI agents that live inside the P2P accommodation ecosystem. Philo helps hosts express who they are — and helps guests find what they're actually looking for. Xeni turns a host's knowledge of a place into a living guide that travels with the guest.
           </p>
           <p
             style={{
@@ -156,13 +156,13 @@ export default function FoldTwo() {
             </div>
           </div>
 
-          {/* Xeny Card */}
+          {/* Xeni Card */}
           <div
             style={{
               padding: '32px'
             }}
           >
-            {/* Xeny Blob */}
+            {/* Xeni Blob */}
             <div style={{
               marginTop: '24px',
               marginBottom: '32px',
@@ -170,13 +170,13 @@ export default function FoldTwo() {
               transform: cards.isVisible ? 'translateX(0) scale(1)' : 'translateX(60px) scale(0.85)',
               transition: 'opacity 2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s, transform 2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s'
             }}>
-              <XenyBlob size={96} eyeDir="left" />
+              <XeniBlob size={96} eyeDir="left" />
             </div>
 
             {/* Text Content */}
             <div style={{
-              opacity: showXenyText ? 1 : 0,
-              transform: showXenyText ? 'translateY(0)' : 'translateY(10px)',
+              opacity: showXeniText ? 1 : 0,
+              transform: showXeniText ? 'translateY(0)' : 'translateY(10px)',
               transition: 'opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)'
             }}>
               {/* Tag Line */}
@@ -188,7 +188,7 @@ export default function FoldTwo() {
                   marginBottom: '8px'
                 }}
               >
-                Xeny — Wander
+                Xeni — Wander
               </div>
 
               {/* Meta Line */}
