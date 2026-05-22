@@ -225,41 +225,14 @@ function HeroPhone() {
       shadow="0 32px 80px rgba(0,0,0,0.50), 0 0 60px rgba(139,158,212,0.25), inset 0 0 0 1px rgba(255,255,255,0.08)"
       style={{ filter: 'drop-shadow(0 0 40px rgba(155,143,216,0.25))' }}
     >
-      {/* Aurora shimmer at top */}
-      <div style={{
-        position: 'absolute', top: 0, left: 0, right: 0, height: '50%',
-        background: 'linear-gradient(to bottom, rgba(184,176,232,0.55) 0%, rgba(212,168,200,0.30) 50%, transparent 100%)',
-        zIndex: 1
-      }} />
-      {/* Dark bg */}
-      <div style={{
-        position: 'absolute', inset: 0,
-        background: 'linear-gradient(175deg,#2C2650 0%,#211C44 100%)'
-      }} />
-      {/* Play icon */}
-      <div style={{
-        position: 'absolute', top: '50%', left: '50%',
-        transform: 'translate(-50%,-50%)',
-        zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12
-      }}>
-        <div style={{
-          width: 48, height: 48, borderRadius: '50%',
-          background: 'rgba(139,158,212,0.18)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center'
-        }}>
-          <div style={{
-            width: 0, height: 0, borderStyle: 'solid',
-            borderWidth: '8px 0 8px 14px',
-            borderColor: `transparent transparent transparent ${XENY_LIGHT}`,
-            marginLeft: 3
-          }} />
-        </div>
-        <p style={{
-          fontSize: 11, fontWeight: 500, color: 'rgba(255,255,255,0.38)',
-          maxWidth: '20ch', lineHeight: 1.55, textAlign: 'center', letterSpacing: '0.02em'
-        }}>Live wander experience — map, location trigger, host tip activating</p>
-      </div>
-      <StatusBar />
+      <video
+        src="https://res.cloudinary.com/dl5b9lrlk/video/upload/q_auto/f_auto/v1779448487/Registrazione_schermo_2026-05-22_alle_13.11.58_wlrgfb.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+      />
     </Phone>
   );
 }

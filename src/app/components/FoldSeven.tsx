@@ -282,7 +282,14 @@ export default function FoldSeven() {
               desc="Philo generates a listing shaped by your identity, local context and what guests in your area are actually looking for."
             />
             <PhoneFrame width={242} height={490}>
-              <VideoPlaceholder label="[VIDEO: Make your place stand out]" />
+              <video
+                src="https://res.cloudinary.com/dl5b9lrlk/video/upload/q_auto/f_auto/v1779445477/fold07-02_mmenz2.mp4"
+                autoPlay
+                muted
+                loop
+                playsInline
+                style={{ flex: 1, width: '100%', objectFit: 'cover', display: 'block', minHeight: 0 }}
+              />
             </PhoneFrame>
           </div>
         </div>
@@ -340,7 +347,16 @@ export default function FoldSeven() {
             gap: '0px',
           }}>
             <div style={{ alignSelf: 'flex-start' }}>
-              <SuggestionPhone width={280} height={568} label="[SCREEN: Suggestion 1]" />
+              <PhoneFrame width={280} height={568}>
+                <video
+                  src="https://res.cloudinary.com/dl5b9lrlk/video/upload/q_auto/f_auto/v1779448019/listing_search_fweyyv.mp4"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  style={{ flex: 1, width: '100%', objectFit: 'cover', display: 'block', minHeight: 0 }}
+                />
+              </PhoneFrame>
             </div>
             <div style={{ alignSelf: 'flex-end', marginTop: '-100px' }}>
               <PhoneFrame width={280} height={568}>
@@ -353,9 +369,6 @@ export default function FoldSeven() {
                   style={{ flex: 1, width: '100%', objectFit: 'cover', display: 'block', minHeight: 0 }}
                 />
               </PhoneFrame>
-            </div>
-            <div style={{ alignSelf: 'flex-start', marginTop: '-100px' }}>
-              <SuggestionPhone width={280} height={568} label="[SCREEN: Suggestion 3]" />
             </div>
           </div>
         </div>
