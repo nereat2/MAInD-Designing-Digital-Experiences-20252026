@@ -1,4 +1,7 @@
 import { useState } from 'react';
+import { useScrollReveal } from '../hooks/useScrollReveal';
+import hostImage from '../../imports/host-archaetype.png';
+import guestImage from '../../imports/guest.png';
 
 const BG      = '#F4F3F1';
 const SURFACE = '#FAFAF7';
@@ -9,46 +12,27 @@ const T_BODY  = 'rgba(44,40,37,0.65)';
 const T_MUTED = 'rgba(44,40,37,0.38)';
 const EASE    = 'cubic-bezier(0.16, 1, 0.3, 1)';
 
-/* ── skeleton pieces ──────────────────────── */
-const Ph = ({ style }: { style?: React.CSSProperties }) => (
-  <div style={{ background: 'rgba(44,40,37,0.06)', borderRadius: '5px', ...style }} />
-);
-
-function HostPlaceholder() {
+/* ── image placeholder ──────────────────────── */
+function ImagePlaceholder({ src, alt }: { src: string; alt: string }) {
   return (
-    <div style={{ width: '100%', height: '100%', padding: '20px', display: 'flex', flexDirection: 'column', gap: '9px' }}>
-      <Ph style={{ height: '7px', width: '42%' }} />
-      <Ph style={{ height: '64px', borderRadius: '9px' }} />
-      <Ph style={{ height: '7px', width: '100%' }} />
-      <Ph style={{ height: '7px', width: '68%' }} />
-      <Ph style={{ height: '7px', width: '42%' }} />
-      <Ph style={{ height: '44px', borderRadius: '9px' }} />
-      <Ph style={{ height: '7px', width: '100%' }} />
-      <Ph style={{ height: '7px', width: '68%' }} />
-    </div>
-  );
-}
-
-function GuestPlaceholder() {
-  return (
-    <div style={{ width: '100%', height: '100%', padding: '20px', display: 'flex', flexDirection: 'column', gap: '9px' }}>
-      <Ph style={{ height: '7px', width: '100%' }} />
-      <div style={{ display: 'flex', gap: '8px' }}>
-        <Ph style={{ flex: 1, height: '44px', borderRadius: '8px' }} />
-        <Ph style={{ flex: 1, height: '44px', borderRadius: '8px' }} />
-        <Ph style={{ flex: 1, height: '44px', borderRadius: '8px' }} />
-      </div>
-      <div style={{ display: 'flex', gap: '8px' }}>
-        <Ph style={{ flex: 1, height: '44px', borderRadius: '8px' }} />
-        <Ph style={{ flex: 1, height: '44px', borderRadius: '8px' }} />
-      </div>
-      <Ph style={{ height: '7px', width: '68%' }} />
-      <Ph style={{ height: '7px', width: '42%' }} />
-      <div style={{ display: 'flex', gap: '8px' }}>
-        <Ph style={{ flex: 1, height: '44px', borderRadius: '8px' }} />
-        <Ph style={{ flex: 1, height: '44px', borderRadius: '8px' }} />
-      </div>
-      <Ph style={{ height: '7px', width: '100%' }} />
+    <div style={{
+      width: '100%',
+      height: '100%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      overflow: 'hidden'
+    }}>
+      <img
+        src={src}
+        alt={alt}
+        style={{
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          objectPosition: 'center'
+        }}
+      />
     </div>
   );
 }
@@ -230,22 +214,27 @@ function Col({ tag, placeholder, statLabel, bullets, dataNum, dataText, dataSour
 
 /* ── main ─────────────────────────────────── */
 export default function FoldFour() {
+  const eyebrow = useScrollReveal();
+  const headline = useScrollReveal(0.15, 80);
+  const columns = useScrollReveal(0.15, 160);
+
   return (
     <section style={{ backgroundColor: BG, padding: '100px 0', fontFamily: 'Figtree, sans-serif' }}>
       <div style={{ maxWidth: '920px', margin: '0 auto', padding: '0 clamp(1.5rem, 6vw, 4rem)' }}>
 
-        <p style={{
+        <p ref={eyebrow.ref} style={{
           fontSize: '11px',
           fontWeight: 500,
           letterSpacing: '0.16em',
           textTransform: 'uppercase',
           color: CORAL,
           marginBottom: '20px',
+          ...eyebrow.style
         }}>
           The current reality
         </p>
 
-        <h2 style={{
+        <h2 ref={headline.ref} style={{
           fontSize: 'clamp(2rem, 4vw, 3rem)',
           fontWeight: 700,
           lineHeight: 1.1,
@@ -253,18 +242,20 @@ export default function FoldFour() {
           color: CHARCOAL,
           maxWidth: '24ch',
           marginBottom: '56px',
+          ...headline.style
         }}>
           Two people. Two frustrations. One broken system.
         </h2>
 
-        <div style={{
+        <div ref={columns.ref} style={{
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',
           gap: '32px',
+          ...columns.style
         }}>
           <Col
             tag="Host"
-            placeholder={<HostPlaceholder />}
+            placeholder={<ImagePlaceholder src={hostImage} alt="Host archetype" />}
             statLabel="40+ steps to publish a listing."
             bullets={[
               'No prompts for personality or local identity',
@@ -278,7 +269,7 @@ export default function FoldFour() {
           />
           <Col
             tag="Guest"
-            placeholder={<GuestPlaceholder />}
+            placeholder={<ImagePlaceholder src={guestImage} alt="Guest archetype" />}
             statLabel="Location, dates, price. That's it."
             bullets={[
               'No way to search by mood, feeling or experience',

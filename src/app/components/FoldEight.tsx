@@ -5,7 +5,7 @@ const XENY        = '#8B9ED4';
 const XENY_LIGHT  = '#B8B0E8';
 const CHARCOAL    = '#2C2825';
 const BG_HOST     = '#F7F6FB';
-const BG_GUEST    = '#1E1A38';
+const BG_GUEST    = '#F7F6FB';
 const BEZEL       = '#1A1917';
 
 /* ── REVEAL HOOK ─────────────────────────────── */
@@ -125,11 +125,11 @@ function SubHeader({ tag, meta, light = false }: { tag: string; meta: string; li
       }}>{tag}</span>
       <span style={{
         flex: 1, height: 1,
-        background: light ? 'rgba(255,255,255,0.10)' : 'rgba(44,40,37,0.08)'
+        background: 'rgba(44,40,37,0.08)'
       }} />
       <span style={{
         fontSize: 11, fontWeight: 400, letterSpacing: '0.04em', flexShrink: 0,
-        color: light ? 'rgba(255,255,255,0.38)' : 'rgba(44,40,37,0.38)'
+        color: 'rgba(44,40,37,0.38)'
       }}>{meta}</span>
     </div>
   );
@@ -142,37 +142,13 @@ function Framing({ children, light = false }: { children: React.ReactNode; light
       fontSize: 'clamp(1.5rem, 3vw, 2.1rem)',
       fontWeight: 700, lineHeight: 1.15,
       letterSpacing: '-0.022em', maxWidth: '36ch', marginBottom: 48,
-      color: light ? 'rgba(255,255,255,0.92)' : CHARCOAL
+      color: CHARCOAL
     }}>{children}</h3>
   );
 }
 
 /* ── HOST CAROUSEL PHONE ─────────────────────── */
-const SLIDES = [
-  { num: '01 / 05', label: 'Lens selection — choose what kind of guide to make' },
-  { num: '02 / 05', label: 'Memory-based conversation — your stories, extracted' },
-  { num: '03 / 05', label: 'Dynamic personalisation — tuned to each guest' },
-  { num: '04 / 05', label: 'Draft generation — a complete itinerary, ready to review' },
-  { num: '05 / 05', label: "Publish — live in the guest's confirmation" },
-];
-
 function HostCarousel() {
-  const [active, setActive] = useState(0);
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  function onScroll() {
-    const el = scrollRef.current;
-    if (!el) return;
-    const idx = Math.round(el.scrollLeft / el.clientWidth);
-    setActive(idx);
-  }
-
-  function goTo(i: number) {
-    const el = scrollRef.current;
-    if (!el) return;
-    el.scrollTo({ left: i * el.clientWidth, behavior: 'smooth' });
-  }
-
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', marginBottom: 40 }}>
       <p style={{
@@ -188,49 +164,8 @@ function HostCarousel() {
 
       <Phone width={242} height={490} radius={38}>
         <StatusBar />
-        {/* Carousel */}
-        <div
-          ref={scrollRef}
-          onScroll={onScroll}
-          style={{
-            position: 'absolute', inset: 0, top: 28,
-            display: 'flex', overflowX: 'scroll',
-            scrollSnapType: 'x mandatory',
-            WebkitOverflowScrolling: 'touch',
-            scrollbarWidth: 'none'
-          }}
-        >
-          {SLIDES.map((s, i) => (
-            <div key={i} style={{
-              minWidth: '100%', height: '100%', scrollSnapAlign: 'start', flexShrink: 0,
-              display: 'flex', flexDirection: 'column', alignItems: 'center',
-              justifyContent: 'center', gap: 10, padding: 16, textAlign: 'center',
-              background: i % 2 === 0
-                ? 'linear-gradient(155deg,#EEECfA 0%,#E8E4F5 100%)'
-                : 'linear-gradient(155deg,#F0EDF8 0%,#EAE4F2 100%)'
-            }}>
-              <span style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: XENY }}>{s.num}</span>
-              <p style={{ fontSize: 11, color: 'rgba(44,40,37,0.42)', maxWidth: '18ch', lineHeight: 1.5 }}>{s.label}</p>
-            </div>
-          ))}
-        </div>
+        <ScreenPh variant="host" label="Video walkthrough — guidebook creation process" />
       </Phone>
-
-      {/* Dots */}
-      <div style={{ display: 'flex', gap: 6, marginTop: 16 }}>
-        {SLIDES.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => goTo(i)}
-            style={{
-              height: 6, borderRadius: 100, border: 'none', cursor: 'pointer',
-              transition: 'width 0.3s, background 0.3s',
-              width: i === active ? 18 : 6,
-              background: i === active ? XENY : 'rgba(139,158,212,0.25)'
-            }}
-          />
-        ))}
-      </div>
     </div>
   );
 }
@@ -252,23 +187,23 @@ function CalloutHost({ children }: { children: React.ReactNode }) {
 function CalloutGuest({ children }: { children: React.ReactNode }) {
   return (
     <div style={{
-      background: 'rgba(255,255,255,0.05)',
-      border: '1px solid rgba(255,255,255,0.09)',
+      background: 'rgba(139,158,212,0.10)',
+      border: '1px solid rgba(139,158,212,0.20)',
       borderRadius: 16, padding: '24px 28px', maxWidth: 640, marginBottom: 28
     }}>
-      <p style={{ fontSize: 15, fontWeight: 600, lineHeight: 1.6, color: 'rgba(255,255,255,0.90)' }}>{children}</p>
+      <p style={{ fontSize: 15, fontWeight: 600, lineHeight: 1.6, color: CHARCOAL }}>{children}</p>
     </div>
   );
 }
 
 /* ── SMALL PHONE (guest moments) ──────────────── */
-function SmallPhone({ label }: { label: string }) {
+function SmallPhone({ label, width = 185, height = 375 }: { label: string; width?: number; height?: number }) {
   return (
     <Phone
-      width={185} height={375} radius={34}
+      width={width} height={height} radius={34}
       notchW={40} notchH={6} notchTop={10}
     >
-      <StatusBar light />
+      <StatusBar />
       <ScreenPh variant="guest" label={label} />
     </Phone>
   );
@@ -317,7 +252,7 @@ function HeroPhone() {
           maxWidth: '20ch', lineHeight: 1.55, textAlign: 'center', letterSpacing: '0.02em'
         }}>Live wander experience — map, location trigger, host tip activating</p>
       </div>
-      <StatusBar light />
+      <StatusBar />
     </Phone>
   );
 }
@@ -341,11 +276,11 @@ function Moment({
     >
       <p style={{
         fontSize: 11, fontWeight: 600, letterSpacing: '0.14em',
-        textTransform: 'uppercase', marginBottom: 8, color: 'rgba(255,255,255,0.55)'
+        textTransform: 'uppercase', marginBottom: 8, color: XENY
       }}>{stepLabel}</p>
       <p style={{
         fontSize: 13, lineHeight: 1.65, maxWidth: '42ch', marginBottom: 20,
-        color: 'rgba(255,255,255,0.65)'
+        color: 'rgba(44,40,37,0.65)'
       }}>{desc}</p>
       <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>{children}</div>
     </div>
@@ -432,29 +367,26 @@ export default function FoldEight() {
       {/* ══ GUEST SECTION ══ */}
       <div style={{ position: 'relative', background: BG_GUEST, padding: '80px 0 100px', overflow: 'hidden' }}>
 
-        {/* Aurora */}
+        {/* Ambient glows */}
         <div aria-hidden style={{
-          position: 'absolute', top: 0, left: 0, right: 0, height: '72%', pointerEvents: 'none', zIndex: 0,
-          background: 'linear-gradient(to bottom,rgba(184,176,232,0.72) 0%,rgba(212,168,200,0.50) 25%,rgba(240,184,160,0.28) 52%,transparent 100%)'
+          position: 'absolute', top: -100, left: -100, width: 640, height: 640, pointerEvents: 'none', zIndex: 0,
+          background: 'radial-gradient(circle,rgba(184,176,232,0.32) 0%,transparent 65%)'
         }} />
-
-        {/* Grain */}
         <div aria-hidden style={{
-          position: 'absolute', inset: 0, opacity: 0.12, pointerEvents: 'none', zIndex: 0, mixBlendMode: 'overlay',
-          backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
-          backgroundSize: '180px 180px'
+          position: 'absolute', bottom: -80, right: -60, width: 400, height: 400, pointerEvents: 'none', zIndex: 0,
+          background: 'radial-gradient(circle,rgba(212,168,200,0.20) 0%,transparent 65%)'
         }} />
 
         <div style={{ maxWidth: 960, margin: '0 auto', padding: '0 clamp(1.5rem,6vw,4rem)', position: 'relative', zIndex: 1 }}>
 
           {/* Sub-header */}
           <div ref={gSubHead.ref} style={reveal(gSubHead)}>
-            <SubHeader tag="Guest" meta="Live guidebook experience" light />
+            <SubHeader tag="Guest" meta="Live guidebook experience" />
           </div>
 
           {/* Framing */}
           <div ref={gFraming.ref} style={reveal(gFraming, 80)}>
-            <Framing light>The host isn't there.<br />But it feels like they are.</Framing>
+            <Framing>The host isn't there.<br />But it feels like they are.</Framing>
           </div>
 
           {/* Moment 1: Getting started */}
@@ -463,9 +395,22 @@ export default function FoldEight() {
             desc="Accessed from the booking confirmation or a notification. The guest sets their preferences — what the host suggests, what they actually want to see, and what Xeny recommends based on their profile."
             delay={180}
           >
-            <SmallPhone label="Entry" />
-            <SmallPhone label="Customisation" />
-            <SmallPhone label="Preference setting" />
+            <div style={{ 
+              display: 'flex', 
+              flexDirection: 'column',
+              gap: '0px',
+              width: '100%'
+            }}>
+              <div style={{ alignSelf: 'flex-start' }}>
+                <SmallPhone label="Entry" width={280} height={568} />
+              </div>
+              <div style={{ alignSelf: 'flex-end', marginTop: '-100px' }}>
+                <SmallPhone label="Customisation" width={280} height={568} />
+              </div>
+              <div style={{ alignSelf: 'flex-start', marginTop: '-100px' }}>
+                <SmallPhone label="Preference setting" width={280} height={568} />
+              </div>
+            </div>
           </Moment>
 
           {/* Moment 2: On the ground — Hero */}
@@ -477,28 +422,18 @@ export default function FoldEight() {
             <HeroPhone />
           </Moment>
 
-          {/* Moment 3: Your turn */}
-          <Moment
-            stepLabel="Your turn"
-            desc="Rate the itinerary and add your own notes for next time."
-            delay={280}
-          >
-            <SmallPhone label="Rating" />
-            <SmallPhone label="Notes" />
-          </Moment>
-
           {/* Guest callout */}
           <div ref={gCta.ref} style={reveal(gCta, 380)}>
             <CalloutGuest>Every guest leaves the place a little better known than before.</CalloutGuest>
           </div>
 
           {/* Data callout */}
-          <div ref={gData.ref} style={{ ...reveal(gData, 480), paddingLeft: 22, borderLeft: '3px solid rgba(255,255,255,0.30)', maxWidth: 560 }}>
-            <p style={{ fontSize: 40, fontWeight: 800, letterSpacing: '-0.03em', color: 'rgba(255,255,255,0.92)', lineHeight: 1, marginBottom: 10 }}>48%</p>
-            <p style={{ fontSize: 15, lineHeight: 1.72, color: 'rgba(255,255,255,0.62)', marginBottom: 8 }}>
+          <div ref={gData.ref} style={{ ...reveal(gData, 480), paddingLeft: 22, borderLeft: `3px solid ${XENY}`, maxWidth: 560 }}>
+            <p style={{ fontSize: 40, fontWeight: 800, letterSpacing: '-0.03em', color: CHARCOAL, lineHeight: 1, marginBottom: 10 }}>48%</p>
+            <p style={{ fontSize: 15, lineHeight: 1.72, color: 'rgba(44,40,37,0.65)', marginBottom: 8 }}>
               of guests visited places they would never have found without a host recommendation. Xeny makes that happen for every guest, every stay — and lets them pass it on.
             </p>
-            <p style={{ fontSize: 11, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.28)' }}>
+            <p style={{ fontSize: 11, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'rgba(44,40,37,0.38)' }}>
               Airbnb UK, 2024
             </p>
           </div>

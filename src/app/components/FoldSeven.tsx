@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import { useScrollReveal } from '../hooks/useScrollReveal';
 
 const CORAL    = '#FF385C';
 const CHARCOAL = '#2C2825';
@@ -36,7 +37,6 @@ function PhoneFrame({ width, height, children }: { width: number; height: number
       height: `${height}px`,
       backgroundColor: FRAME_BG,
       borderRadius: '38px',
-      boxShadow: '0 24px 64px rgba(0,0,0,0.16)',
       padding: '9px',
       position: 'relative',
       flexShrink: 0,
@@ -207,6 +207,17 @@ function Callout({ main, sub }: { main: string; sub: string }) {
 
 /* ── main ─────────────────────────────────────────── */
 export default function FoldSeven() {
+  const eyebrow = useScrollReveal();
+  const hostSection = useScrollReveal(0.15, 80);
+  const hostHeadline = useScrollReveal(0.15, 160);
+  const hostPhones = useScrollReveal(0.15, 240);
+  const hostCallout = useScrollReveal(0.15, 320);
+  const guestSection = useScrollReveal(0.15, 100);
+  const guestHeadline = useScrollReveal(0.15, 180);
+  const guestStep1 = useScrollReveal(0.15, 260);
+  const guestStep2 = useScrollReveal(0.15, 340);
+  const guestCallout = useScrollReveal(0.15, 420);
+
   return (
     <section
       className="relative w-full"
@@ -226,7 +237,7 @@ export default function FoldSeven() {
       <div style={{ maxWidth: '920px', margin: '0 auto', padding: '0 clamp(1.5rem, 6vw, 4rem)', position: 'relative' }}>
 
         {/* Section eyebrow */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '64px' }}>
+        <div ref={eyebrow.ref} style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '64px', ...eyebrow.style }}>
           <div style={{ width: '20px', height: '1px', backgroundColor: 'rgba(255,56,92,0.50)' }} />
           <p style={{ fontSize: '11px', fontWeight: 500, color: CORAL, textTransform: 'uppercase', letterSpacing: '0.16em' }}>
             Philo · Optimise
@@ -234,17 +245,20 @@ export default function FoldSeven() {
         </div>
 
         {/* ══ HOST ══════════════════════════════════════ */}
-        <SectionHeader pill="HOST" meta="Listing creation & optimisation" />
+        <div ref={hostSection.ref} style={hostSection.style}>
+          <SectionHeader pill="HOST" meta="Listing creation & optimisation" />
+        </div>
 
-        <h2 style={{
+        <h2 ref={hostHeadline.ref} style={{
           fontSize: 'clamp(1.875rem, 3vw, 2.125rem)', fontWeight: 700, lineHeight: 1.15,
           letterSpacing: '-0.022em', color: CHARCOAL, maxWidth: '36ch', marginBottom: '48px',
+          ...hostHeadline.style
         }}>
           Your listing, finally as distinctive as the place it's in.
         </h2>
 
         {/* Two standard phones */}
-        <div style={{ display: 'flex', gap: '40px', alignItems: 'flex-start' }}>
+        <div ref={hostPhones.ref} style={{ display: 'flex', gap: '40px', alignItems: 'flex-start', ...hostPhones.style }}>
           <div>
             <StepHead
               label="01 — Capture your identity"
@@ -266,48 +280,67 @@ export default function FoldSeven() {
           </div>
         </div>
 
-        <Callout
-          main="The result? A listing that feels relevant, distinctive, and worth booking — not just another option in the grid."
-          sub="Enriched with local events, partner businesses and territory data — so your listing reflects the full value of where you are."
-        />
+        <div ref={hostCallout.ref} style={hostCallout.style}>
+          <Callout
+            main="The result? A listing that feels relevant, distinctive, and worth booking — not just another option in the grid."
+            sub="Enriched with local events, partner businesses and territory data — so your listing reflects the full value of where you are."
+          />
+        </div>
 
         {/* ══ GUEST ═════════════════════════════════════ */}
         <div style={{ marginTop: '80px' }} />
-        <SectionHeader pill="GUEST" meta="Search & discovery" />
+        <div ref={guestSection.ref} style={guestSection.style}>
+          <SectionHeader pill="GUEST" meta="Search & discovery" />
+        </div>
 
-        <h2 style={{
+        <h2 ref={guestHeadline.ref} style={{
           fontSize: 'clamp(1.875rem, 3vw, 2.125rem)', fontWeight: 700, lineHeight: 1.15,
           letterSpacing: '-0.022em', color: CHARCOAL, maxWidth: '36ch', marginBottom: '48px',
+          ...guestHeadline.style
         }}>
           A search that actually knows what you're looking for.
         </h2>
 
         {/* Step 01 — carousel */}
-        <StepHead
-          label="01 — Understanding you"
-          desc="Philo learns your travel style, past trips, preferences and needs. It remembers what you've booked, what you loved, and what matters to you."
-          maxW="44ch"
-        />
-        <CarouselPhone width={265} height={530} />
+        <div ref={guestStep1.ref} style={guestStep1.style}>
+          <StepHead
+            label="01 — Understanding you"
+            desc="Philo learns your travel style, past trips, preferences and needs. It remembers what you've booked, what you loved, and what matters to you."
+            maxW="44ch"
+          />
+          <CarouselPhone width={265} height={530} />
+        </div>
 
         {/* Step 02 — three suggestion phones */}
-        <div style={{ marginTop: '48px' }}>
+        <div ref={guestStep2.ref} style={{ marginTop: '48px', ...guestStep2.style }}>
           <StepHead
             label="02 — Your shortlist"
             desc="Not a grid of identical cards. A curated shortlist — each recommendation with a reason. Built around you, not around price."
             maxW="44ch"
           />
-          <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
-            <SuggestionPhone width={185} height={375} label="[SCREEN: Suggestion 1]" />
-            <SuggestionPhone width={185} height={375} label="[SCREEN: Suggestion 2]" />
-            <SuggestionPhone width={185} height={375} label="[SCREEN: Suggestion 3]" />
+          <div style={{ 
+            display: 'flex', 
+            flexDirection: 'column',
+            gap: '0px',
+          }}>
+            <div style={{ alignSelf: 'flex-start' }}>
+              <SuggestionPhone width={280} height={568} label="[SCREEN: Suggestion 1]" />
+            </div>
+            <div style={{ alignSelf: 'flex-end', marginTop: '-100px' }}>
+              <SuggestionPhone width={280} height={568} label="[SCREEN: Suggestion 2]" />
+            </div>
+            <div style={{ alignSelf: 'flex-start', marginTop: '-100px' }}>
+              <SuggestionPhone width={280} height={568} label="[SCREEN: Suggestion 3]" />
+            </div>
           </div>
         </div>
 
-        <Callout
-          main="Travelling with a dog? Always booking mountain stays? Looking for somewhere quiet? Philo already knows."
-          sub="Results enriched with real-time local data — events, new businesses, and partner experiences in the area."
-        />
+        <div ref={guestCallout.ref} style={guestCallout.style}>
+          <Callout
+            main="Travelling with a dog? Always booking mountain stays? Looking for somewhere quiet? Philo already knows."
+            sub="Results enriched with real-time local data — events, new businesses, and partner experiences in the area."
+          />
+        </div>
 
       </div>
     </section>
